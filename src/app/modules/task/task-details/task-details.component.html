@@ -11,7 +11,7 @@
             <mat-form-field>
                 <mat-label>Task description</mat-label>
                 <input matInput type="text" placeholder="Enter task description" formControlName="description">
-                <mat-error *ngIf="description.invalid">Description is required</mat-error>
+                <mat-error *ngIf="taskForm.get('description').invalid">Description is required</mat-error>
             </mat-form-field>
 
             <mat-form-field>
@@ -19,14 +19,16 @@
                 <mat-select formControlName="assigneeId">
                     <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{ user?.name }}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="assigneeId.invalid">Assignee is required</mat-error>
+                <mat-error *ngIf="taskForm.get('assigneeId').invalid">Assignee is required</mat-error>
             </mat-form-field>
 
-            <mat-checkbox name="completed" formControlName="completed">Completed</mat-checkbox>
+            <mat-checkbox formControlName="completed">Completed</mat-checkbox>
+            <mat-error *ngIf="taskForm.get('completed').invalid">Invalid completed value</mat-error>
         </form>
     </mat-card-content>
-    <mat-card-actions align="end">
+
+    <mat-card-actions>
         <button mat-button color="warn" (click)="goBack()">Cancel</button>
-        <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid">Save</button>
     </mat-card-actions>
 </mat-card>

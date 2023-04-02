@@ -1,45 +1,40 @@
-
-<form [formGroup]="queryForm">
-    <mat-toolbar color="primary" class="task-filter">
-        <mat-toolbar-row class="task-filter__row">
-            <mat-form-field>
-                <mat-label>Search</mat-label>
-                <input matInput type="text" placeholder="Search by task description" formControlName="description">
-            </mat-form-field>
-        </mat-toolbar-row>
-
-        <mat-toolbar-row  class="task-filter__row">
-            <mat-form-field>
-                <mat-label>Assignee</mat-label>
-                <mat-select formControlName="assigneeId" multiple="true">
-                    <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{ user?.name }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-checkbox name="completed" formControlName="completed">Completed</mat-checkbox>
-            <button mat-icon-button [matTooltip]="'Reset Filter'" (click)="resetFilter()" type="reset">
-                <mat-icon>refresh</mat-icon>
-            </button>
-        </mat-toolbar-row>
-    </mat-toolbar>
+<form [formGroup]="queryForm" class="task-filter">
+    <mat-form-field>
+        <mat-label>Search</mat-label>
+        <input matInput type="text" placeholder="Search by task description" formControlName="description">
+    </mat-form-field>
+    <span class="spacing-flex"></span>
+    <mat-form-field>
+        <mat-label>Assignee</mat-label>
+        <mat-select formControlName="assigneeId" multiple="true">
+            <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{ user?.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-checkbox name="completed" formControlName="completed">Completed</mat-checkbox>
+    <button mat-icon-button [matTooltip]="'Reset Filter'" (click)="resetFilter()" type="reset">
+        <mat-icon>refresh</mat-icon>
+    </button>
 </form>
 
 <div class="tasks-list">
-    <mat-progress-bar class="tasks-list__loading" mode="determinate" value="40" *ngIf="getTasksLoading$ | async">
-    </mat-progress-bar>
+    <mat-progress-bar class="tasks-list__loading" mode="determinate" value="40"
+        *ngIf="(getTasksLoading$ | async) === true;"></mat-progress-bar>
 
-    <mat-card class="tasks-list__wrapper" *ngFor="let task of (tasks$ | async)"
-        [ngClass]="{ 'tasks-list__item--completed': task.completed }" class="tasks-list__item">
-        <mat-card-content class="tasks-list__item__content">
-            <p class="tasks-list__item__description">
-                <mat-checkbox (change)="completeTask($event, task.id)" [checked]="task.completed"></mat-checkbox>
-                {{ task.description }}
-            </p>
-            <p><i>Assignee: {{ (userEntities$ | async )?.[task.assigneeId]?.name || 'N/A' }}</i></p>
-        </mat-card-content>
-        <mat-card-actions align="end">
-            <a [routerLink]="['/tasks/', task.id]" mat-stroked-button>View</a>
-        </mat-card-actions>
-    </mat-card>
+    <ng-container *ngIf="(tasks$ | async) as tasks">
+        <mat-card class="tasks-list__item" *ngFor="let task of tasks"
+            [ngClass]="{ 'tasks-list__item--completed': task.completed }">
+            <mat-card-content class="tasks-list__item__content">
+                <p class="tasks-list__item__description">
+                    <mat-checkbox (change)="completeTask($event, task.id)" [checked]="task.completed"></mat-checkbox>
+                    {{ task.description }}
+                </p>
+                <p><i>Assignee: {{ (userEntities$ | async)?.[task.assigneeId]?.name || 'N/A' }}</i></p>
+            </mat-card-content>
+            <mat-card-actions class="tasks-list__item__actions" align="end">
+                <a [routerLink]="['/tasks/', task.id]" mat-stroked-button color="primary">View</a>
+            </mat-card-actions>
+        </mat-card>
+    </ng-container>
 
     <mat-card class="task-list__new">
         <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" #taskFormDirective="ngForm">

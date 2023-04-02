@@ -1,31 +1,175 @@
+@use '~@angular/material' as mat;
+
 app-task-list {
     @include form-line();
 
-    .task-filter {
-        font-size: medium;
-        margin-bottom: 1rem;
+    button[type=reset] {
+        margin-left: $spacing-md;
     }
+
+    .task-filter {
+        display: flex;
+        align-items: center;
+        gap: $spacing-xxs;
+        font-size: medium;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+        background-color: mat.get-color-from-palette($my-primary);
+        color: mat.get-color-from-palette($my-primary, "500-contrast");
+    }
+
     .tasks-list {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: $spacing-sm;
 
         &__wrapper {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: $spacing-xs;
+            margin-bottom: $spacing-sm;
+            border: 1px solid $color-secondary;
+            border-radius: 5px;
         }
 
         &__item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: $spacing-xs;
+
+            &__content {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                flex-grow: 1;
+            }
+
+            &__actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0;
+                padding: 0;
+            }
+
             &--completed {
+                background-color: $color-text-light;
+
                 .tasks-list__item__description {
                     text-decoration: line-through;
                 }
             }
+
+            &:hover {
+                .tasks-list__item__actions {
+                    width: fit-content;
+                }
+            }
         }
+        
+        &__loading {
+            width: 100%;
+            margin-bottom: $spacing-sm;
+        }
+
+        &__new {
+            margin-top: $spacing-lg;
+            border: 1px solid $color-secondary;
+            border-radius: 5px;
+        }
+
+        mat-form-field {
+            width: 100%;
+
+            mat-label {
+                font-weight: 700;
+            }
+
+            mat-icon {
+                margin-right: $spacing-xxs;
+            }
+
+            &-appearance-legacy {
+                & .mat-form-field-underline {
+                    background-color: white;
+                }
+            }
+
+            &-invalid {
+                & .mat-form-field-label {
+                    color: $color-error;
+                }
+
+                & .mat-form-field-underline {
+                    background-color: $color-error;
+                }
+            }
+        }
+
     }
 }
 
+
+
 app-task-details {
     @include form-line();
+
+    .task-details__wrapper {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: $spacing-sm;
+    }
+
+    .mat-form-field {
+        margin-top: $spacing-sm;
+        width: 100%;
+        padding: $spacing-xs;
+
+        &-appearance-legacy {
+            & .mat-form-field-underline {
+                background-color: white;
+            }
+        }
+
+        &-invalid {
+            & .mat-form-field-label {
+                color: $color-error;
+            }
+
+            & .mat-form-field-underline {
+                background-color: $color-error;
+            }
+        }
+    }
+
+    .mat-checkbox {
+        .mat-checkbox-layout {
+            margin: $spacing-xs 0;
+        }
+    }
+
+    button {
+        margin: $spacing-xs;
+    }
+
+    .mat-toolbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 $spacing-md;
+
+        &-primary.mat-button {
+            background-color: $color-primary;
+            color: $color-text-light;
+
+            &:hover {
+                background-color: darken($color-primary, 10%);
+            }
+        }
+    }
 }
