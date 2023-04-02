@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
+import { Task, TaskQuery, User } from "@shared/models";
 import { Observable, of, throwError } from "rxjs";
 import { delay } from "rxjs/operators";
-import { Task, TaskQuery, User } from "../../shared/models";
 
 function randomDelay() {
   return Math.random() * 1000;

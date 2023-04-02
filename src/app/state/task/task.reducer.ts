@@ -6,7 +6,7 @@ import {
   setSuccessState,
 } from "@shared/helpers";
 import { IError, TaskQuery } from "@shared/models";
-import { Task } from "../../shared/models/task.model";
+import { Task } from "@shared/models/task.model";
 import * as TaskActions from "./task.actions";
 
 export interface TaskEntityState extends EntityState<Task> {
