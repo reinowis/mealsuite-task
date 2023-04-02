@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { TaskQuery } from "@shared/models";
 import { SharedModule } from "@shared/shared.module";
@@ -20,7 +21,7 @@ describe("TaskListComponent", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TaskListComponent],
-      imports: [SharedModule, ReactiveFormsModule],
+      imports: [SharedModule, ReactiveFormsModule, BrowserAnimationsModule],
       providers: [
         provideMockStore({}),
         { provide: FormBuilder, useClass: MockFormBuilder },
