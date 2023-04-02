@@ -1,20 +1,12 @@
 import { Location } from "@angular/common";
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule
-} from "@angular/forms";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
-import {
-  AppState,
-  TaskActions,
-  UserActions
-} from "@state";
-import { TaskDetailsComponent } from "./task-details.component";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
+import { AppState, TaskActions, UserActions } from "@state";
 import { of } from "rxjs";
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { TaskDetailsComponent } from "./task-details.component";
 
 describe("TaskDetailsComponent", () => {
   let component: TaskDetailsComponent;
@@ -24,7 +16,7 @@ describe("TaskDetailsComponent", () => {
   let formBuilder: FormBuilder;
   let activatedRoute: ActivatedRoute;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TaskDetailsComponent],
       providers: [
@@ -38,7 +30,7 @@ describe("TaskDetailsComponent", () => {
       ],
       imports: [ReactiveFormsModule],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TaskDetailsComponent);
@@ -98,18 +90,18 @@ describe("TaskDetailsComponent", () => {
 
   describe("initForm", () => {
     it("should initialize taskForm and subscribe to taskEntities$", () => {
-      const groupSpy = spyOn(formBuilder, "group").and.returnValue(
-        {
-          patchValue: ({}),
-        } as FormGroup
+      const groupSpy = spyOn(formBuilder, "group").and.returnValue({
+        patchValue: {},
+      } as FormGroup);
+      spyOn(component.taskEntities$, "pipe").and.returnValue(
+        of({
+          "1": {
+            description: "",
+            assigneeId: "",
+            completed: "",
+          },
+        })
       );
-      spyOn(component.taskEntities$, "pipe").and.returnValue(of({
-        "1": {
-          description: "",
-          assigneeId: "",
-          completed: "",
-        },
-      }));
 
       (component as any).initForm();
 
