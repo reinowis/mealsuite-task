@@ -3,14 +3,13 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { Task, User } from "@shared/models";
+import { User } from "@shared/models";
 import {
   AppState,
   TaskActions,
   UserActions,
   getTaskEntitiesSelector,
-  getTasksSelector,
-  getUsersSelector,
+  getUsersSelector
 } from "@state";
 import { Observable, ReplaySubject } from "rxjs";
 import { filter, map, takeUntil, tap } from "rxjs/operators";
