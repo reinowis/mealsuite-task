@@ -1,5 +1,10 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormBuilder, FormGroup, NgForm, ReactiveFormsModule } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  NgForm,
+  ReactiveFormsModule,
+} from "@angular/forms";
 import { MatCheckboxChange } from "@angular/material/checkbox";
 import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { TaskQuery } from "@shared/models";
@@ -44,7 +49,7 @@ describe("TaskListComponent", () => {
 
     component.taskFormDirective = new NgForm([], []);
   });
-  
+
   describe("initData", () => {
     it("should call GetUsers method", () => {
       spyOn(store, "dispatch");
@@ -97,7 +102,7 @@ describe("TaskListComponent", () => {
       const query: TaskQuery = {
         description: "Test Description",
         completed: true,
-        assigneeId: ['123'],
+        assigneeId: ["123"],
       };
 
       spyOn(store, "dispatch");
@@ -128,10 +133,10 @@ describe("TaskListComponent", () => {
 
       spyOn(store, "dispatch");
 
-      component.completeTask(mockEvent, '123');
+      component.completeTask(mockEvent, "123");
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        TaskActions.CompleteTask({ id: '123', completed: true })
+        TaskActions.CompleteTask({ id: "123", completed: true })
       );
     });
   });

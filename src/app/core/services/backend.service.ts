@@ -37,7 +37,7 @@ export class BackendService {
   tasks(query?: TaskQuery) {
     return of(this.storedTasks.filter(
       (task) =>
-        task.description.toLowerCase().includes(query?.description.toLowerCase() || "") &&
+        task?.description?.toLowerCase().includes(query?.description?.toLowerCase() || "") &&
         (query?.assigneeId ? query.assigneeId?.includes(task.assigneeId) : true) &&
         (query?.completed ? task.completed === query.completed : true)
     )).pipe(delay(randomDelay()));

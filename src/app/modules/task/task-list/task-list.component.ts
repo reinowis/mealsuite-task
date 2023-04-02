@@ -22,7 +22,7 @@ import { takeUntil, tap } from "rxjs/operators";
   templateUrl: "./task-list.component.html",
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-  @ViewChild('taskFormDirective') taskFormDirective: NgForm;
+  @ViewChild("taskFormDirective") taskFormDirective: NgForm;
 
   private destroy$ = new ReplaySubject<boolean>();
   tasks$: Observable<Task[]> = this.store.select(getTasksSelector);
@@ -103,7 +103,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.taskForm.valid) {
       this.store.dispatch(TaskActions.AddTask({ task: this.taskForm.value }));
-      
+
       this.taskFormDirective.resetForm();
     }
   }

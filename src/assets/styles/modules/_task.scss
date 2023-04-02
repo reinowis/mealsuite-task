@@ -1,111 +1,76 @@
-@use '~@angular/material' as mat;
+@use '~@angular/material'as mat;
 
 app-task-list {
     @include form-line();
-
-    button[type=reset] {
-        margin-left: $spacing-md;
-    }
-
-    .task-filter {
-        display: flex;
-        align-items: center;
-        gap: $spacing-xxs;
-        font-size: medium;
-        flex-wrap: wrap;
-        margin-bottom: 1rem;
-        background-color: mat.get-color-from-palette($my-primary);
-        color: mat.get-color-from-palette($my-primary, "500-contrast");
-    }
+    @include checkbox-layout();
 
     .tasks-list {
-        display: flex;
-        flex-direction: column;
-        gap: $spacing-sm;
-
-        &__wrapper {
+        &__content {
             display: flex;
             flex-direction: column;
-            gap: $spacing-xs;
-            margin-bottom: $spacing-sm;
-            border: 1px solid $color-secondary;
-            border-radius: 5px;
-        }
+            gap: $spacing-sm;
 
-        &__item {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: $spacing-xs;
-
-            &__content {
+            &__wrapper {
                 display: flex;
                 flex-direction: column;
-                margin: 0;
-                flex-grow: 1;
+                gap: $spacing-xs;
+                margin-bottom: $spacing-sm;
             }
 
-            &__actions {
+            &__item {
                 display: flex;
+                flex-direction: row;
                 align-items: center;
-                justify-content: space-between;
-                margin: 0;
-                padding: 0;
-            }
+                padding: $spacing-xs;
 
-            &--completed {
-                background-color: $color-text-light;
+                &__content {
+                    display: flex;
+                    flex-direction: column;
+                    margin: 0;
+                    flex-grow: 1;
+                }
 
-                .tasks-list__item__description {
-                    text-decoration: line-through;
+                &__actions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                &--completed {
+                    background-color: $color-text-light;
+
+                    .tasks-list__item__description {
+                        text-decoration: line-through;
+                    }
+                }
+
+                &:hover {
+                    .tasks-list__item__actions {
+                        width: fit-content;
+                    }
                 }
             }
 
-            &:hover {
-                .tasks-list__item__actions {
-                    width: fit-content;
-                }
+            &__new {
+                margin-top: $spacing-lg;
+                border: 1px solid $color-secondary;
+                border-radius: 5px;
             }
+
         }
-        
+
+
+
+
+
+
         &__loading {
             width: 100%;
             margin-bottom: $spacing-sm;
         }
 
-        &__new {
-            margin-top: $spacing-lg;
-            border: 1px solid $color-secondary;
-            border-radius: 5px;
-        }
-
-        mat-form-field {
-            width: 100%;
-
-            mat-label {
-                font-weight: 700;
-            }
-
-            mat-icon {
-                margin-right: $spacing-xxs;
-            }
-
-            &-appearance-legacy {
-                & .mat-form-field-underline {
-                    background-color: white;
-                }
-            }
-
-            &-invalid {
-                & .mat-form-field-label {
-                    color: $color-error;
-                }
-
-                & .mat-form-field-underline {
-                    background-color: $color-error;
-                }
-            }
-        }
 
     }
 }
@@ -114,46 +79,17 @@ app-task-list {
 
 app-task-details {
     @include form-line();
+    @include checkbox-layout();
 
-    .task-details__wrapper {
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: $spacing-sm;
-    }
-
-    .mat-form-field {
-        margin-top: $spacing-sm;
-        width: 100%;
-        padding: $spacing-xs;
-
-        &-appearance-legacy {
-            & .mat-form-field-underline {
-                background-color: white;
-            }
+    .task-details {
+        &__wrapper {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: $spacing-sm;
         }
-
-        &-invalid {
-            & .mat-form-field-label {
-                color: $color-error;
-            }
-
-            & .mat-form-field-underline {
-                background-color: $color-error;
-            }
-        }
-    }
-
-    .mat-checkbox {
-        .mat-checkbox-layout {
-            margin: $spacing-xs 0;
-        }
-    }
-
-    button {
-        margin: $spacing-xs;
     }
 
     .mat-toolbar {

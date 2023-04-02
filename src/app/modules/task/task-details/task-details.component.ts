@@ -9,7 +9,7 @@ import {
   TaskActions,
   UserActions,
   getTaskEntitiesSelector,
-  getUsersSelector
+  getUsersSelector,
 } from "@state";
 import { Observable, ReplaySubject } from "rxjs";
 import { filter, map, takeUntil, tap } from "rxjs/operators";
@@ -68,8 +68,8 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
     this.taskEntities$
       .pipe(
         takeUntil(this.destroy$),
-        map(entities => !!entities && entities[this.taskId]),
-        filter(task => !!task),
+        map((entities) => !!entities && entities[this.taskId]),
+        filter((task) => !!task),
         tap((task) => {
           this.taskForm.patchValue({
             description: task.description,

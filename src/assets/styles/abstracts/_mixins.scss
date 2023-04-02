@@ -5,3 +5,11 @@
         }
     }
 }
+
+@mixin checkbox-layout() {
+    .mat-checkbox {
+        .mat-checkbox-layout {
+            margin: $spacing-xs 0;
+        }
+    }
+}

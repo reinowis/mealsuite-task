@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { catchError, map, mergeMap, switchMap, tap } from "rxjs/operators";
+import { catchError, mergeMap, switchMap, tap } from "rxjs/operators";
 
 import { BackendService } from "@core/services/backend.service";
 
@@ -29,9 +29,10 @@ export class TaskEffects {
       switchMap((savedTask) =>
         of(TaskActions.AddTaskSuccess({ task: savedTask }))
       ),
-      catchError((error: HttpErrorResponse) =>
-        of(TaskActions.AddTaskFailure({ error }))
-      )
+      catchError((error: HttpErrorResponse) => {
+        this.snackbar.open(error?.message);
+        return of(TaskActions.AddTaskFailure({ error }));
+      })
     )
   );
 
@@ -40,9 +41,10 @@ export class TaskEffects {
       ofType(TaskActions.GetTaskDetails),
       mergeMap(({ id }) => this.backendService.task(id)),
       switchMap((task) => of(TaskActions.GetTaskDetailsSuccess({ task }))),
-      catchError((error: HttpErrorResponse) =>
-        of(TaskActions.GetTaskDetailsFailure({ error }))
-      )
+      catchError((error: HttpErrorResponse) => {
+        this.snackbar.open(error?.message);
+        return of(TaskActions.GetTaskDetailsFailure({ error }));
+      })
     )
   );
 
@@ -59,9 +61,10 @@ export class TaskEffects {
           verticalPosition: "top",
         });
       }),
-      catchError((error: HttpErrorResponse) =>
-        of(TaskActions.UpdateTaskFailure({ error }))
-      )
+      catchError((error: HttpErrorResponse) => {
+        this.snackbar.open(error?.message);
+        return of(TaskActions.UpdateTaskFailure({ error }));
+      })
     )
   );
 
@@ -81,9 +84,10 @@ export class TaskEffects {
           })
         )
       ),
-      catchError((error: HttpErrorResponse) =>
-        of(TaskActions.CompleteTaskFailure({ error }))
-      )
+      catchError((error: HttpErrorResponse) => {
+        this.snackbar.open(error?.message);
+        return of(TaskActions.CompleteTaskFailure({ error }));
+      })
     )
   );
 

@@ -10,7 +10,7 @@
 // Use a specific shade from the blue palette for the primary color
 $my-primary: mat.define-palette(mat.$indigo-palette);
 // Use the default accent color from the Material Design specification
-$my-accent: mat.define-palette(mat.$gray-palette);
+$my-accent: mat.define-palette(mat.$blue-palette);
 
 // Create the Material Design theme using the primary and accent colors
 $my-theme: mat.define-light-theme((
