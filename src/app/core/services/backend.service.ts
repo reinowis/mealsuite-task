@@ -1,24 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of, throwError } from "rxjs";
-import { delay, tap } from "rxjs/operators";
-
-/**
- * This service acts as a mock backend.
- *
- * You are free to modify it as you see.
- */
-
-export type User = {
-  id: number;
-  name: string;
-};
-
-export type Task = {
-  id: number;
-  description: string;
-  assigneeId: number;
-  completed: boolean;
-};
+import { delay } from "rxjs/operators";
+import { Task, TaskQuery, User } from "../../shared/models";
 
 function randomDelay() {
   return Math.random() * 1000;
@@ -28,36 +11,39 @@ function randomDelay() {
 export class BackendService {
   storedTasks: Task[] = [
     {
-      id: 0,
+      id: '0',
       description: "Install a monitor arm",
-      assigneeId: 111,
+      assigneeId: '111',
       completed: false
     },
     {
-      id: 1,
+      id: '1',
       description: "Move the desk to the new location",
-      assigneeId: 111,
+      assigneeId: '111',
       completed: false
     }
   ];
 
   storedUsers: User[] = [
-    { id: 111, name: "Mike" },
-    { id: 222, name: "James" }
+    { id: '111', name: "Mike" },
+    { id: '222', name: "James" }
   ];
 
-  lastId = 1;
+  private findTaskById = (id: any) =>
+    this.storedTasks.find(task => task.id === id);
 
-  private findTaskById = id =>
-    this.storedTasks.find(task => task.id === +id);
+  private findUserById = (id: any) => this.storedUsers.find(user => user.id === id);
 
-  private findUserById = id => this.storedUsers.find(user => user.id === +id);
-
-  tasks() {
-    return of(this.storedTasks).pipe(delay(randomDelay()));
+  tasks(query?: TaskQuery) {
+    return of(this.storedTasks.filter(
+      (task) =>
+        task.description.toLowerCase().includes(query?.description.toLowerCase() || "") &&
+        (query?.assigneeId ? query.assigneeId?.includes(task.assigneeId) : true) &&
+        (query?.completed ? task.completed === query.completed : true)
+    )).pipe(delay(randomDelay()));
   }
 
-  task(id: number): Observable<Task> {
+  task(id: string): Observable<Task | undefined> {
     return of(this.findTaskById(id)).pipe(delay(randomDelay()));
   }
 
@@ -65,15 +51,15 @@ export class BackendService {
     return of(this.storedUsers).pipe(delay(randomDelay()));
   }
 
-  user(id: number) {
+  user(id: string) {
     return of(this.findUserById(id)).pipe(delay(randomDelay()));
   }
 
-  newTask(payload: { description: string }) {
+  newTask(payload: Pick<Task, 'description' | 'assigneeId'>) {
     const newTask: Task = {
-      id: ++this.lastId,
+      id: new Date().getTime().toString(),
       description: payload.description,
-      assigneeId: null,
+      assigneeId: payload.assigneeId,
       completed: false
     };
 
@@ -82,15 +68,15 @@ export class BackendService {
     return of(newTask).pipe(delay(randomDelay()));
   }
 
-  assign(taskId: number, userId: number) {
+  assign(taskId: string, userId: string) {
     return this.update(taskId, { assigneeId: userId });
   }
 
-  complete(taskId: number, completed: boolean) {
+  complete(taskId: string, completed: boolean) {
     return this.update(taskId, { completed });
   }
 
-  update(taskId: number, updates: Partial<Omit<Task, "id">>) {
+  update(taskId: string, updates: Partial<Omit<Task, "id">>) {
     const foundTask = this.findTaskById(taskId);
 
     if (!foundTask) {
