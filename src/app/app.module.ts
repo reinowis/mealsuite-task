@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 
 import { CoreModule } from '@core';
-import { SharedModule } from '@shared/shared.module';
 import { StateModule } from '@state/state.module';
 
 import { CommonModule } from '@angular/common';
@@ -19,7 +18,6 @@ import { AppComponent } from './app.component';
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
-    SharedModule,
     StateModule,
     AppRoutingModule,
   ],
