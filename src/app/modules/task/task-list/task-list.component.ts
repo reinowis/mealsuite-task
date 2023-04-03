@@ -75,7 +75,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
     this.queryForm = this.formBuilder.group({
       description: [""],
-      completed: [],
+      completed: [null],
       assigneeId: [[]],
     });
 

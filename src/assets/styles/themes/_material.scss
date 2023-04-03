@@ -1,33 +1,22 @@
-/** Material Design global styles **/
-
-// Import the Angular Material library
 @use '~@angular/material' as mat;
 
-// Define the Material Design theme
 @include mat.core();
 
-// Set up the primary and accent colors
-// Use a specific shade from the blue palette for the primary color
-$my-primary: mat.define-palette(mat.$indigo-palette);
-// Use the default accent color from the Material Design specification
-$my-accent: mat.define-palette(mat.$blue-palette);
+$primary-color-palette: createPalette($primary-color);
+$secondary-color-palette: createPalette($secondary-color);
 
-// Create the Material Design theme using the primary and accent colors
-$my-theme: mat.define-light-theme((
-  color: (
-    primary: $my-primary,
-    accent: $my-accent,
+$my-primary: mat.define-palette($primary-color-palette);
+$my-accent: mat.define-palette($secondary-color-palette);
+$my-error: mat.define-palette(mat.$red-palette);
+
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-error,
+    ),
   )
-));
+);
 
-// Apply the Material Design theme to the application
 @include mat.all-component-themes($my-theme);
-
-// Add any additional global styles as needed
-// Wrap styles in a named class to avoid global conflicts
-body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  background-color: mat.get-color-from-palette($my-primary, 50);
-}

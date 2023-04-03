@@ -1,0 +1,8 @@
+@use '~@angular/material' as mat;
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: mat.get-color-from-palette($my-primary, 50);
+}

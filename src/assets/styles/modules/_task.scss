@@ -1,6 +1,7 @@
 @use '~@angular/material'as mat;
 
 app-task-list {
+    @include container();
     @include form-line();
     @include checkbox-layout();
 
@@ -16,55 +17,77 @@ app-task-list {
                 gap: $spacing-xs;
                 margin-bottom: $spacing-sm;
             }
+        }
 
-            &__item {
+        &__filter {
+            @include mat.elevation(0);
+        }
+
+        &__item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: $spacing-xs;
+            border: solid 1px $color-secondary;
+            border-radius: 8px;
+
+            &__content {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                flex-grow: 1;
+            }
+
+            &__actions {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0;
+                padding: 0;
+            }
+
+            &--completed {
+                background-color: $color-disabled;
+                color: $color-secondary;
+
+                .tasks-list__item__description {
+                    text-decoration: line-through;
+                }
+            }
+
+            &:hover {
+                background: mat.get-color-from-palette($my-primary, 50, 0.5);
+            }
+        }
+
+        &__new {
+            @include mat.elevation(0);
+
+            padding: $spacing-xs;
+            border: solid 1px $color-secondary;
+            border-radius: 8px;
+
+            &__form {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                padding: $spacing-xs;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.5rem;
 
-                &__content {
-                    display: flex;
-                    flex-direction: column;
-                    margin: 0;
+                .mat-form-field {
                     flex-grow: 1;
                 }
-
-                &__actions {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                &--completed {
-                    background-color: $color-text-light;
-
-                    .tasks-list__item__description {
-                        text-decoration: line-through;
-                    }
-                }
-
-                &:hover {
-                    .tasks-list__item__actions {
-                        width: fit-content;
-                    }
-                }
             }
 
-            &__new {
-                margin-top: $spacing-lg;
-                border: 1px solid $color-secondary;
-                border-radius: 5px;
+            &__actions {
+                display: flex;
+                justify-content: flex-end;
+                padding-bottom: 0.5rem;
+                width: 100%;
             }
-
         }
-
-
-
-
-
 
         &__loading {
             width: 100%;
@@ -78,12 +101,12 @@ app-task-list {
 
 
 app-task-details {
+    @include container();
     @include form-line();
     @include checkbox-layout();
 
     .task-details {
         &__wrapper {
-            margin: auto;
             display: flex;
             flex-direction: column;
             align-items: center;

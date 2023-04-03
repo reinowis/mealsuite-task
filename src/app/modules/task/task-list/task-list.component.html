@@ -2,14 +2,9 @@
     <h1>Tasks</h1>
 </mat-toolbar>
 
-<mat-card class="tasks-list">
-    <mat-card-header class="tasks-list__header">
-        <mat-progress-bar class="tasks-list__loading" mode="indeterminate" value="40"
-            *ngIf="(getTasksLoading$ | async) === true;"></mat-progress-bar>
-    </mat-card-header>
-
+<mat-card class="tasks-list__wrapper">
     <mat-card-content class="tasks-list__content">
-        <mat-accordion class="tasks-list__content__filter">
+        <mat-accordion class="tasks-list__filter">
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title>
@@ -17,14 +12,14 @@
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <form [formGroup]="queryForm">
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                         <mat-label>Search</mat-label>
                         <input matInput type="text" placeholder="Search by task description"
                             formControlName="description">
                         <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
                     <span class="spacing-flex"></span>
-                    <mat-form-field>
+                    <mat-form-field appearance="outline">
                         <mat-label>Assignee</mat-label>
                         <mat-select formControlName="assigneeId" multiple="true">
                             <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{ user?.name }}
@@ -41,34 +36,38 @@
         </mat-accordion>
 
         <div class="tasks-list__content__wrapper">
+            <mat-progress-bar class="tasks-list__loading" mode="indeterminate" value="40"
+            *ngIf="(getTasksLoading$ | async) === true;"></mat-progress-bar>
+
             <ng-container *ngIf="(tasks$ | async) as tasks">
-                <mat-card class="tasks-list__content__item" *ngFor="let task of tasks"
-                    [ngClass]="{ 'tasks-list__content__item--completed': task.completed }">
-                    <mat-card-content class="tasks-list__content__item__content">
-                        <p class="tasks-list__content__item__description">
+                <div class="tasks-list__item" *ngFor="let task of tasks"
+                    [ngClass]="{ 'tasks-list__item--completed': task.completed }">
+                    <div class="tasks-list__item__content">
+                        <p class="tasks-list__item__description">
                             <mat-checkbox (change)="completeTask($event, task.id)" [checked]="task.completed">
                             </mat-checkbox>
                             {{ task.description }}
                         </p>
                         <p><i>Assignee: {{ (userEntities$ | async)?.[task.assigneeId]?.name || 'N/A' }}</i></p>
-                    </mat-card-content>
-                    <mat-card-actions class="tasks-list__content__item__actions" align="end">
-                        <a [routerLink]="['/tasks/', task.id]" mat-stroked-button color="primary">View</a>
-                    </mat-card-actions>
-                </mat-card>
+                    </div>
+                    <div class="tasks-list__item__actions">
+                        <a [routerLink]="['/tasks/', task.id]" mat-icon-button color="default" matTooltip="View Details">
+                            <mat-icon>navigate_next</mat-icon>
+                        </a>
+                    </div>
+                </div>
             </ng-container>
 
-            <mat-card class="tasks-list__content__new">
-                <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" #taskFormDirective="ngForm">
-                    <mat-card-content>
-                        <mat-form-field>
+            <div class="tasks-list__new">
+                <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" #taskFormDirective="ngForm" class="tasks-list__new__form">
+                        <mat-form-field appearance="outline">
                             <mat-label>Task description</mat-label>
                             <input matInput type="text" placeholder="Enter task description"
                                 formControlName="description">
                             <mat-error *ngIf="description.invalid">Description is required</mat-error>
                         </mat-form-field>
 
-                        <mat-form-field>
+                        <mat-form-field appearance="outline">
                             <mat-label>Assignee</mat-label>
                             <mat-select formControlName="assigneeId">
                                 <mat-option *ngFor="let user of users$ | async" [value]="user?.id">{{ user?.name }}
@@ -76,16 +75,15 @@
                             </mat-select>
                             <mat-error *ngIf="assigneeId.invalid">Assignee is required</mat-error>
                         </mat-form-field>
-                    </mat-card-content>
 
-                    <mat-card-actions align="end">
-                        <button mat-raised-button color="primary">
-                            <mat-icon>done</mat-icon>
-                            Add
-                        </button>
-                    </mat-card-actions>
+                        <div class="tasks-list__new__actions">
+                            <button mat-flat-button color="primary">
+                                Add
+                                <mat-icon>done</mat-icon>
+                            </button>
+                        </div>
                 </form>
-            </mat-card>
+            </div>
         </div>
 
     </mat-card-content>
