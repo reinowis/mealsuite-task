@@ -1,9 +1,10 @@
-@use '~@angular/material'as mat;
+@use '@angular/material'as mat;
 
 app-task-list {
     @include container();
     @include form-line();
     @include checkbox-layout();
+    @include wrapper();
 
     .tasks-list {
         &__content {
@@ -21,6 +22,10 @@ app-task-list {
 
         &__filter {
             @include mat.elevation(0);
+
+            border: solid 1px $color-secondary;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         &__item {
@@ -31,6 +36,7 @@ app-task-list {
             padding: $spacing-xs;
             border: solid 1px $color-secondary;
             border-radius: 8px;
+            cursor: pointer;
 
             &__content {
                 display: flex;
@@ -104,6 +110,7 @@ app-task-details {
     @include container();
     @include form-line();
     @include checkbox-layout();
+    @include wrapper();
 
     .task-details {
         &__wrapper {

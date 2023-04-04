@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @mixin form-line() {
     form {
         .mat-form-field {
@@ -18,4 +20,14 @@
     display: block;
     max-width: 500px;
     margin: 1.5rem auto;
+}
+
+@mixin wrapper() {
+    > .mat-toolbar {
+        border-radius: 8px 8px 0px 0px;
+    }
+
+    > .mat-card {
+        border-radius: 0px 0px 8px 8px;
+    }
 }
